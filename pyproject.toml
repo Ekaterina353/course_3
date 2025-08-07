@@ -3,7 +3,7 @@ name = "parser-with-db"
 version = "0.1.0"
 description = ""
 authors = [
-    {name = "origin",email = "yura28049119@yandex.ru"}
+    {name = "Katja",email = "gorbunovakatja530@gmail.com"}
 ]
 readme = "README.md"
 requires-python = ">=3.12"
