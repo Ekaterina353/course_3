@@ -20,13 +20,12 @@ black = "^25.1.0"
 flake8 = "^7.2.0"
 mypy = "^1.15.0"
 isort = "^6.0.1"
-
-
-[tool.poetry.group.dev.dependencies]
 requests = "^2.32.3"
 psycopg2-binary = "^2.9.10"
 python-dotenv = "^1.1.0"
-f = "^0.0.1"
+
+[tool.poetry.group.dev.dependencies]
+#  Остальные dev-зависимости
 
 [flake8]
 max-line-length = 119

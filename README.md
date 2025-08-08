@@ -26,7 +26,7 @@
 ## Установка проекта: ##
 
 ### Установить зависимости из файла requirements.txt: ###
-pip install -r requirements.txt
+poetry install
 
 ## Запуск проекта: ##
 
