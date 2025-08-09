@@ -1,11 +1,15 @@
 import os
 from dotenv import load_dotenv
-import psycopg2
-from psycopg2 import Error
+import psycopg2  # Импортируем модуль psycopg2
+from psycopg2 import Error  # Импортируем класс Error из psycopg2
 
 load_dotenv()
 
-PASSWORD = os.getenv("PASSWORD")
+DB_HOST = os.getenv("DB_HOST")
+DB_NAME = os.getenv("DB_NAME")
+DB_USER = os.getenv("DB_USER")
+DB_PASSWORD = os.getenv("DB_PASSWORD")
+DB_PORT = os.getenv("DB_PORT")
 
 
 class DBManager:
@@ -16,7 +20,7 @@ class DBManager:
         self.__cur = None
 
     def connect_db(
-        self, database="vacancy", user="postgres", password=PASSWORD, host="localhost", port="5432"
+        self, database="vacancy", user="postgres", password=DB_PASSWORD, host="localhost", port="5432"
     ) -> None:
         """Подключение к базе данных"""
         try:
@@ -26,7 +30,7 @@ class DBManager:
             raise error
 
     def get_companies_and_vacancies_count(self):
-        """получает список всех компаний и количество вакансий у каждой компании."""
+        """Получает список всех компаний и количество вакансий у каждой компании."""
         try:
             self.__cur.execute(
                 "SELECT name, COUNT(*) FROM organizations JOIN vacancies on vacancies.company_id = organizations.id GROUP BY name"
@@ -38,7 +42,7 @@ class DBManager:
             raise error
 
     def get_all_vacancies(self):
-        """получает список всех вакансий с указанием названия компании, названия вакансии и зарплаты и ссылки на вакансию"""
+        """Получает список всех вакансий с указанием названия компании, названия вакансии и зарплаты и ссылки на вакансию"""
         try:
             self.__cur.execute(
                 "SELECT c.name AS company_name, v.vacancy, v.salary_from || '-' || v.salary_to AS range_salary, v.url FROM vacancies v JOIN organizations c ON v.company_id = c.id"
@@ -52,7 +56,7 @@ class DBManager:
             raise error
 
     def get_avg_salary(self):
-        """получает среднюю зарплату по вакансиям"""
+        """Получает среднюю зарплату по вакансиям"""
         try:
             self.__cur.execute(
                 """SELECT (AVG(salary_to) + AVG(salary_from)) / 2 as avg_salary
@@ -65,7 +69,7 @@ class DBManager:
             raise error
 
     def get_vacancies_with_higher_salary(self):
-        """получает список всех вакансий, у которых зарплата выше средней по всем вакансиям"""
+        """Получает список всех вакансий, у которых зарплата выше средней по всем вакансиям"""
         try:
             avg_sum = self.get_avg_salary()
             self.__cur.execute(f"SELECT v.vacancy, v.salary_to FROM vacancies v WHERE salary_to > {avg_sum}")
@@ -76,7 +80,7 @@ class DBManager:
             raise error
 
     def get_vacancies_with_keyword(self, keyword):
-        """получает список всех вакансий, в названии которых содержатся переданные в метод слова, например python"""
+        """Получает список всех вакансий, в названии которых содержатся переданные в метод слова, например python"""
         try:
             self.__cur.execute("SELECT v.vacancy FROM vacancies v WHERE v.vacancy ILIKE %s", (f"%{keyword}%",))
             vacanies_with_keyword = self.__cur.fetchall()
