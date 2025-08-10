@@ -8,6 +8,10 @@ authors = [
 readme = "README.md"
 requires-python = ">=3.9"
 dependencies = [
+    "funcy (>=2.0,<3.0)",
+    "psycopg2-binary (>=2.9.10,<3.0.0)",
+    "requests (>=2.32.4,<3.0.0)",
+    "python-dotenv (>=1.1.1,<2.0.0)"
 ]
 
 
@@ -18,9 +22,6 @@ build-backend = "poetry.core.masonry.api"
 
 [tool.poetry.dependencies]
 python = "^3.9"
-psycopg2-binary = "^2.9.10" # Для доступа к PostgreSQL
-requests = "^2.32.3" # Для запросов к hh.ru
-python-dotenv = "^1.1.0" # Для чтения .env файлов
 
 [tool.poetry.group.lint.dependencies]
 black = "^25.1.0"

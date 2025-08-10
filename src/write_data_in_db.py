@@ -6,9 +6,10 @@ from psycopg2 import Error
 
 from dotenv import load_dotenv
 
+
 load_dotenv()
 
-PASSWORD = os.getenv("PASSWORD")
+PASSWORD = os.getenv("DB_PASSWORD")
 
 
 class DB:
