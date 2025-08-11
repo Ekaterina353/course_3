@@ -8,7 +8,7 @@ class Filter:
     def __init__(self, data):
         self.data = data
 
-    def list_dict(self, item=None, dict_vacancies=None, list_vac=None) -> List:
+    def list_dict(self, item, dict_vacancies, list_vac) -> List:
         """Метод для преобразования данных"""
 
         dict_vacancies["company"] = get_in(item, ["employer", "name"], "не указана компания")
