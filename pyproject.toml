@@ -3,11 +3,15 @@ name = "parser-with-db"
 version = "0.1.0"
 description = ""
 authors = [
-    {name = "Katja",email = "gorbunovakatja530@gmail.com"}
+    { name = "Katja", email = "gorbunovakatja530@gmail.com" }
 ]
 readme = "README.md"
-requires-python = ">=3.12"
+requires-python = ">=3.9"
 dependencies = [
+    "funcy (>=2.0,<3.0)",
+    "psycopg2-binary (>=2.9.10,<3.0.0)",
+    "requests (>=2.32.4,<3.0.0)",
+    "python-dotenv (>=1.1.1,<2.0.0)"
 ]
 
 
@@ -15,22 +19,15 @@ dependencies = [
 requires = ["poetry-core>=2.0.0,<3.0.0"]
 build-backend = "poetry.core.masonry.api"
 
-[tool.poetry.group.link.dependencies]
+
+[tool.poetry.dependencies]
+python = "^3.9"
+
+[tool.poetry.group.lint.dependencies]
 black = "^25.1.0"
 flake8 = "^7.2.0"
 mypy = "^1.15.0"
 isort = "^6.0.1"
-requests = "^2.32.3"
-psycopg2-binary = "^2.9.10"
-python-dotenv = "^1.1.0"
-
-[tool.poetry.group.dev.dependencies]
-#  Остальные dev-зависимости
-
-[flake8]
-max-line-length = 119
-ignore = ["E203", "W503"]
-exclude = [".git"]
 
 
 [tool.black]
