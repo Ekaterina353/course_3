@@ -1,4 +1,7 @@
+from pydoc import resolve
 from typing import List
+
+import f
 from funcy import get_in
 
 
@@ -8,17 +11,19 @@ class Filter:
     def __init__(self, data):
         self.data = data
 
-    def list_dict(self, item, dict_vacancies, list_vac) -> List:
+    @staticmethod
+    def list_dict(item) -> List:
         """Метод для преобразования данных"""
+        result = []
+        for data in item:
+            dict_vacancies = {"company": f.ichain(data, "employer", "name") or "не указана компания",
+                              "city": f.ichain(data, "area", "name") or "не найдено",
+                              "vacancy": data.get("name", "не указано"),
+                              "salary_from": f.ichain(data, "salary", "from") or 0,
+                              "salary_to": f.ichain(data, "salary", "to") or 0,
+                              "requirements": f.ichain(data, "snippet", "responsibility") or "не указано",
+                              "url": data.get("alternate_url",
+                                              "не указано")}
+            result.append(dict_vacancies)
 
-        dict_vacancies["company"] = get_in(item, ["employer", "name"], "не указана компания")
-        dict_vacancies["city"] = get_in(item, ["area", "name"], "не указано")
-        dict_vacancies["vacancy"] = item.get("name",
-                                             "не указано")  # Используем .get() для прямого доступа к ключу верхнего уровня
-        dict_vacancies["salary_from"] = get_in(item, ["salary", "from"], 0)
-        dict_vacancies["salary_to"] = get_in(item, ["salary", "to"], 0)
-        dict_vacancies["requirements"] = get_in(item, ["snippet", "responsibility"], "не указано")
-        dict_vacancies["url"] = item.get("alternate_url",
-                                         "не указано")  # Используем .get() для прямого доступа к ключу верхнего уровня
-        list_vac.append(dict_vacancies)
-        return list_vac
+        return result
