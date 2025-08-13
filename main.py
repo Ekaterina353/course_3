@@ -9,12 +9,13 @@ db = DB()
 
 
 def main():
+    db.create_database()
     db.connect_db()
+    db.create_table()
     data.connect_db()
-    db.create_db()
     vac = hh.api("менеджер")
     fil = Filter(vac)
-    vacancies = fil.list_dict()
+    vacancies = fil.list_dict(vac)
     db.fill_data(vacancies)
     data.get_companies_and_vacancies_count()
     data.get_all_vacancies()

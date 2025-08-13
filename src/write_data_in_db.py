@@ -33,8 +33,34 @@ class DB:
 
         except (Exception, Error) as error:
             raise error
+    @staticmethod
+    def create_database() -> None:
+        """Создание базы данных"""
+        temp_database = psycopg2.connect(
+            dbname="postgres", user=DB_USER, password=DB_PASSWORD, host=DB_HOST, port=DB_PORT
+        )
+        temp_database.set_session(autocommit=True)
+        cursor = temp_database.cursor()
+        cursor.execute(
+            f"""
+                SELECT 
+                    COUNT(*)
+                WHERE NOT EXISTS 
+                (
+                    SELECT FROM 
+                        pg_database 
+                    WHERE 
+                        datname = '{DB_NAME}'
+                );
+            """
+        )
+        chk_database = cursor.fetchone()
+        if chk_database:
+            if chk_database[0] == 1:
+                cursor.execute(f"CREATE DATABASE {DB_NAME};")
+        cursor.close()
 
-    def create_db(self) -> None:
+    def create_table(self) -> None:
         """Создаем таблицы данных"""
         try:
             self.__cur.execute(
